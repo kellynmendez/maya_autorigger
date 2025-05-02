@@ -48,6 +48,9 @@ class AutoRiggerGUI(QtWidgets.QDialog):
     def __init__(self):
         QtWidgets.QDialog.__init__(self, parent=get_maya_window())
 
+        self.num_arm_jnts_box = None
+        self.locators = []
+
     def init_gui(self):
         """
         Creates and displays the GUI to the user
@@ -61,11 +64,12 @@ class AutoRiggerGUI(QtWidgets.QDialog):
         arm_jnt_num_lbl = QtWidgets.QLabel('Number of Arm Joints: ')
         arm_jnt_num_row.addWidget(arm_jnt_num_lbl)
         # Arm joint num spin box
-        arm_jnt_num_sb = QtWidgets.QSpinBox()
-        arm_jnt_num_sb.setFixedWidth(100)
-        arm_jnt_num_sb.setValue(3)
-        arm_jnt_num_sb.setSingleStep(2)
-        arm_jnt_num_row.addWidget(arm_jnt_num_sb)
+        self.num_arm_jnts_box = QtWidgets.QSpinBox()
+        self.num_arm_jnts_box.setFixedWidth(100)
+        self.num_arm_jnts_box.setValue(3)
+        self.num_arm_jnts_box.setSingleStep(2)
+        self.num_arm_jnts_box.setMinimum(3)
+        arm_jnt_num_row.addWidget(self.num_arm_jnts_box)
         # Add to component layout
         components_lay.addRow(arm_jnt_num_row)
 
@@ -94,9 +98,42 @@ class AutoRiggerGUI(QtWidgets.QDialog):
 
         :return:
         """
+        if self.num_arm_jnts_box.value() < 3 or self.num_arm_jnts_box.value() % 2 == 0:
+            self.warn_user(title="Error",
+                           msg="Number of arm joints must be an even number and greater "
+                               "than or equal to 3.       ")
+            return None
+
 
     def generate_joints(self):
         """
 
         :return:
         """
+        if not self.locators:
+            self.warn_user(title="Error",
+                           msg="Locators must be created before generating "
+                               "joints.       ")
+            return None
+
+
+    @classmethod
+    def warn_user(cls, title=None, msg=None):
+        """
+        This function displays a message box that locks the screen until the user
+        acknowledges it.
+
+        :param title: The title of the message box window.
+        :type: str
+
+        :param msg: The text to show in the message box window.
+        :type: str
+        """
+        if msg and title:
+            # Create a QMessageBox
+            msg_box = QtWidgets.QMessageBox()
+            # Set the title and the message of the window
+            msg_box.setWindowTitle(title)
+            msg_box.setText(msg)
+            # Show the message
+            msg_box.exec_()
