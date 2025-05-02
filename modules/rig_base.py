@@ -29,15 +29,23 @@ from abc import abstractmethod
 #----------------------------------------------------------------------------------------#
 #----------------------------------------------------------------------------- CLASSES --#
 
-class BaseRigComponent:
+class BaseComponent:
     """
     Base class for a rig component
     """
     def __init__(self, name):
         self.name = name
+        self.locators = []
         self.joints = []
         self.controls = []
         self.root = None
+
+    @abstractmethod
+    def create_locators(self):
+        """
+        Creates the base locators for rig component
+        """
+        raise NotImplementedError("Subclass must implement create_locs method.")
 
     @abstractmethod
     def build(self):
@@ -47,15 +55,17 @@ class BaseRigComponent:
         raise NotImplementedError("Subclass must implement build method.")
 
     @abstractmethod
-    def connect(self, parent=None):
-        """
-        Connects component to next component
-        """
-        raise NotImplementedError("Subclass must implement connect method.")
-
-    @abstractmethod
     def create_ctrls(self):
         """
         Creates the curve controls for the component
         """
         raise NotImplementedError("Subclass must implement create_ctrls method.")
+
+    def get_root(self):
+        """
+        Gives component that should be connected
+
+        :return: Root component that should be connected to parent
+        :type: 
+        """
+        return self.root

@@ -9,7 +9,7 @@
     Kellyn Mendez
 
 :synopsis:
-    This module contains the class for creating a finger component.
+    This module contains the class for creating a hand component.
 """
 
 
@@ -17,14 +17,37 @@
 #----------------------------------------------------------------------------- IMPORTS --#
 
 # Built-in
-from abc import abstractmethod
 
 # Third party
 
 # Internal
+from modules.rig_base import BaseComponent
 
 #----------------------------------------------------------------------------------------#
 #--------------------------------------------------------------------------- FUNCTIONS --#
 
 #----------------------------------------------------------------------------------------#
 #----------------------------------------------------------------------------- CLASSES --#
+
+class HandComponent(BaseComponent):
+    """
+    Base class for a rig component
+    """
+
+    def __init__(self, name):
+        super().__init__(name)
+
+    def create_locators(self):
+        """
+        Creates the base locators for hand
+        """
+
+    def build(self):
+        """
+        Builds hand rig
+        """
+
+    def create_ctrls(self):
+        """
+        Creates the curve controls for the hand
+        """

@@ -9,7 +9,7 @@
     Kellyn Mendez
 
 :synopsis:
-    This module contains the class for creating a hand component.
+    This module contains utilities for working with rigs in maya.
 """
 
 
@@ -17,7 +17,6 @@
 #----------------------------------------------------------------------------- IMPORTS --#
 
 # Built-in
-from abc import abstractmethod
 
 # Third party
 
@@ -25,6 +24,24 @@ from abc import abstractmethod
 
 #----------------------------------------------------------------------------------------#
 #--------------------------------------------------------------------------- FUNCTIONS --#
+
+def enum(**enums):
+    """
+    Creates enums.
+    """
+    return type('Enum', (), enums)
+
+SUFFIX = enum(LOCATOR='LOC',
+              JOINT='JNT',
+              CURVE='CON')
+
+SIDE = enum(R='R',
+            L='L',
+            C='C')
+
+AXIS = enum(X='X',
+            Y='Y',
+            Z='Z')
 
 #----------------------------------------------------------------------------------------#
 #----------------------------------------------------------------------------- CLASSES --#
