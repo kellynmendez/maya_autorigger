@@ -52,10 +52,10 @@ class FingerComponent(BaseComponent):
         :type: tuple
 
         :param side: Direction to build chain
-        :type: gen_utils.SIDE
+        :type: utils.enums.SIDE
 
         :param axis: Axis to build chain along
-        :type: gen_utils.AXIS
+        :type: utils.enums.AXIS
         """
         super().__init__(name)
         self.num_joints = num_joints
@@ -82,12 +82,13 @@ class FingerComponent(BaseComponent):
         self.locators = create_locator_chain(self.name, self.side, dir_vector,
                                              self.num_joints, self.length,
                                              self.start_pos)
-        
+
     
     def build(self):
         """
         Builds finger rig
         """
+
 
 
 
