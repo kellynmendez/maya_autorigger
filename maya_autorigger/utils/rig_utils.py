@@ -101,16 +101,16 @@ def create_joints_from_locators(locators):
         jnt = cmds.joint(name=jnt_name)
         if cmds.listRelatives(jnt, parent=True):
             cmds.parent(jnt, world=True)
-        # Parent to locator, zero out translation, unparent
+        # Parent to locator, zero out translation and joint orient, unparent
         cmds.parent(jnt, loc)
         cmds.xform(jnt, translation=(0, 0, 0))
+        cmds.joint(name=jnt, edit=True, orientation=[0, 0, 0])
         cmds.parent(jnt, world=True)
         # Add joint to list
         joints.append(jnt)
 
         # Parent this joint to the previous one
         if i > 0:
-            print(joints)
             cmds.parent(joints[i], joints[i - 1])
 
     cmds.delete(locators)
