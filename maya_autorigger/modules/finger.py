@@ -23,7 +23,7 @@ import maya.cmds as cmds
 
 # Internal
 from maya_autorigger.modules.rig_base import BaseComponent
-from maya_autorigger.utils.gen_utils import SUFFIX, SIDE, AXIS
+from maya_autorigger.utils.enums import SIDE, AXIS
 from maya_autorigger.utils.rig_utils import create_locator_chain
 
 
@@ -37,8 +37,7 @@ class FingerComponent(BaseComponent):
     """
     Base class for a rig component
     """
-    def __init__(self, name, num_joints=3, length=1, start_pos=(0, 0, 0),
-                 side=SIDE.C, axis=AXIS.X):
+    def __init__(self, name, start_pos, num_joints=3, length=1, side=SIDE.C, axis=AXIS.X):
         """
         :param name: Name of joint
         :type: str

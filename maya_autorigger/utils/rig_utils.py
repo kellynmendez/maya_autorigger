@@ -22,7 +22,9 @@
 import maya.cmds as cmds
 
 # Internal
-from maya_autorigger.utils.gen_utils import SUFFIX
+from maya_autorigger.utils.enums import SUFFIX
+from maya_autorigger.utils.gen_utils import multipy_tup, add_tup
+
 
 #----------------------------------------------------------------------------------------#
 #--------------------------------------------------------------------------- FUNCTIONS --#
@@ -35,13 +37,13 @@ def create_locator_chain(name, side, dir_vector, num_joints=3, length=6,
     locators = []
     next_pos = start_pos
     gap = length / num_joints
-    vector_incr = dir_vector * gap
+    vector_incr = multipy_tup(dir_vector, gap)
 
     for loc_num in range(num_joints):
-        loc_name = f'{side}_{name}{num_joints - loc_num}_{SUFFIX.LOC}'
+        loc_name = f'{side}_{name}{num_joints - loc_num}_{SUFFIX.LOCATOR}'
         loc = cmds.spaceLocator(name=loc_name, position=next_pos)
         locators.append(loc)
-        next_pos += vector_incr
+        next_pos = add_tup(next_pos, vector_incr)
 
     return locators
 

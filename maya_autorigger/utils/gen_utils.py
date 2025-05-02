@@ -25,23 +25,11 @@
 #----------------------------------------------------------------------------------------#
 #--------------------------------------------------------------------------- FUNCTIONS --#
 
-def enum(**enums):
-    """
-    Creates enums.
-    """
-    return type('Enum', (), enums)
+def multipy_tup(tup, scalar):
+    return [scalar * t for t in tup]
 
-SUFFIX = enum(LOCATOR='LOC',
-              JOINT='JNT',
-              CURVE='CON')
-
-SIDE = enum(R='R',
-            L='L',
-            C='C')
-
-AXIS = enum(X='X',
-            Y='Y',
-            Z='Z')
+def add_tup(tup_a, tup_b):
+    return [tup_a[i] + tup_b[i] for i in range(3)]
 
 #----------------------------------------------------------------------------------------#
 #----------------------------------------------------------------------------- CLASSES --#
