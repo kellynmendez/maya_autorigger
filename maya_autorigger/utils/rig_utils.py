@@ -96,21 +96,18 @@ def create_joints_from_locators(locators):
     joints = []
     for i, loc in enumerate(locators):
         # Get position and name
-        pos = cmds.xform(loc, query=True, worldSpace=True, translation=True)
         jnt_name = loc.replace(SUFFIX.LOCATOR, SUFFIX.JOINT)
-        # Make joint
+        # Create joint at origin and with no parent
         jnt = cmds.joint(name=jnt_name)
-        # Unparent and set position
         if cmds.listRelatives(jnt, parent=True):
             cmds.parent(jnt, world=True)
-        cmds.xform(jnt, worldSpace=True, translation=pos)
+        # Parent to locator, zero out translation, unparent
+        cmds.parent(jnt, loc)
+        cmds.xform(jnt, translation=(0, 0, 0))
+        cmds.parent(jnt, world=True)
         # Add joint to list
         joints.append(jnt)
 
-        # Orient this joint to the previous one
-        if i > 0:
-            print(i)
-            orient_joint(joints[i], joints[i - 1])
         # Parent this joint to the previous one
         if i > 0:
             print(joints)
