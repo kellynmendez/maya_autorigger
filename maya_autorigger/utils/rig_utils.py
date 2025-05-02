@@ -39,11 +39,14 @@ def create_locator_chain(name, side, dir_vector, num_joints=3, length=6,
     gap = length / num_joints
     vector_incr = multipy_tup(dir_vector, gap)
 
-    for loc_num in range(num_joints):
-        loc_name = f'{side}_{name}{num_joints - loc_num}_{SUFFIX.LOCATOR}'
+    for loc_num in range(1, num_joints):
+        loc_name = f'{side}_{name}{loc_num:02}_{SUFFIX.LOCATOR}'
         loc = cmds.spaceLocator(name=loc_name, position=next_pos)
         locators.append(loc)
         next_pos = add_tup(next_pos, vector_incr)
+
+    for loc_num in range(1, len(locators)):
+        cmds.parent(locators[loc_num], locators[loc_num - 1])
 
     return locators
 
