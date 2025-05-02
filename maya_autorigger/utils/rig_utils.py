@@ -20,9 +20,9 @@
 
 # Third party
 import maya.cmds as cmds
-from utils.gen_utils import SUFFIX
 
 # Internal
+from maya_autorigger.utils.gen_utils import SUFFIX
 
 #----------------------------------------------------------------------------------------#
 #--------------------------------------------------------------------------- FUNCTIONS --#

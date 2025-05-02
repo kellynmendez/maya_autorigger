@@ -22,9 +22,9 @@ from turtledemo.penrose import start
 import maya.cmds as cmds
 
 # Internal
-from modules.rig_base import BaseComponent
-from utils.gen_utils import SUFFIX, SIDE, AXIS
-from utils.rig_utils import create_locator_chain
+from maya_autorigger.modules.rig_base import BaseComponent
+from maya_autorigger.utils.gen_utils import SUFFIX, SIDE, AXIS
+from maya_autorigger.utils.rig_utils import create_locator_chain
 
 
 #----------------------------------------------------------------------------------------#

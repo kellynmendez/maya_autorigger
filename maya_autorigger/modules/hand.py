@@ -21,7 +21,7 @@
 # Third party
 
 # Internal
-from modules.rig_base import BaseComponent
+from maya_autorigger.modules.rig_base import BaseComponent
 
 #----------------------------------------------------------------------------------------#
 #--------------------------------------------------------------------------- FUNCTIONS --#
