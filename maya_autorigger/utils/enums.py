@@ -32,4 +32,12 @@ AXIS = enum(X='X',
             Y='Y',
             Z='Z')
 
+COMP = enum(SHOULDER='shoulder',
+                 UPPERARM='upperArm',
+                 ELBOW='elbow',
+                 FOREARM='forearm',
+                 WRIST='wrist',
+                 PALM='palm',
+                 FINGER='finger')
+
 #endregion enums

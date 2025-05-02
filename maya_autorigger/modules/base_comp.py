@@ -33,12 +33,12 @@ class BaseComponent:
     """
     Base class for a rig component
     """
-    def __init__(self, name):
+    def __init__(self, name, side):
         self.name = name
+        self.side = side
         self.locators = []
         self.joints = []
         self.controls = []
-        self.root = None
 
     @abstractmethod
     def create_locators(self):
@@ -68,4 +68,4 @@ class BaseComponent:
         :return: Root component that should be connected to parent
         :type: 
         """
-        return self.root
+        return self.joints[0]

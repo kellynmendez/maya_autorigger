@@ -22,9 +22,10 @@ from turtledemo.penrose import start
 import maya.cmds as cmds
 
 # Internal
-from maya_autorigger.modules.rig_base import BaseComponent
+from maya_autorigger.modules.base_comp import BaseComponent
 from maya_autorigger.utils.enums import SIDE, AXIS
-from maya_autorigger.utils.rig_utils import create_locator_chain
+from maya_autorigger.utils.rig_utils import (create_locator_chain,
+                                             create_joints_from_locators)
 
 
 #----------------------------------------------------------------------------------------#
@@ -37,10 +38,13 @@ class FingerComponent(BaseComponent):
     """
     Base class for a rig component
     """
-    def __init__(self, name, start_pos, num_joints=3, length=1, side=SIDE.C, axis=AXIS.X):
+    def __init__(self, name, side, start_pos, num_joints=3, length=1, axis=AXIS.X):
         """
         :param name: Name of joint
         :type: str
+
+        :param side: Prefix for side finger is on
+        :type: utils.enums.SIDE
 
         :param num_joints: Number of joints in chain
         :type: int
@@ -51,17 +55,13 @@ class FingerComponent(BaseComponent):
         :param start_pos: Starting position of chain
         :type: tuple
 
-        :param side: Direction to build chain
-        :type: utils.enums.SIDE
-
         :param axis: Axis to build chain along
         :type: utils.enums.AXIS
         """
-        super().__init__(name)
+        super().__init__(name, side)
         self.num_joints = num_joints
         self.length = length
         self.start_pos = start_pos
-        self.side = side
         self.axis = axis
 
 
@@ -79,17 +79,19 @@ class FingerComponent(BaseComponent):
         if self.side == SIDE.R:
             dir_vector *= -1
 
-        self.locators = create_locator_chain(self.name, self.side, dir_vector,
-                                             self.num_joints, self.length,
-                                             self.start_pos)
+        self.locators = create_locator_chain(name=self.name,
+                                             side=self.side,
+                                             dir_vector=dir_vector,
+                                             num_joints=self.num_joints,
+                                             length=self.length,
+                                             start_pos=self.start_pos)
 
     
     def build(self):
         """
         Builds finger rig
         """
-
-
+        create_joints_from_locators(self.locators)
 
 
     def create_ctrls(self):

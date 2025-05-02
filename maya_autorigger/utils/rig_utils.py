@@ -29,7 +29,7 @@ from maya_autorigger.utils.gen_utils import multipy_tup, add_tup
 #----------------------------------------------------------------------------------------#
 #--------------------------------------------------------------------------- FUNCTIONS --#
 
-def create_locator_chain(name, side, dir_vector, num_joints=3, length=6,
+def create_locator_chain(name, side, dir_vector=None, num_joints=3, length=6,
                          start_pos=(0, 0, 0)):
     """
     Creates a chain of locators
@@ -59,7 +59,8 @@ def create_locator_chain(name, side, dir_vector, num_joints=3, length=6,
     # Starting values
     next_pos = start_pos
     gap = length / num_joints
-    vector_incr = multipy_tup(dir_vector, gap)
+    if num_joints > 1:
+        vector_incr = multipy_tup(dir_vector, gap)
 
     # For each joint that we want, create a locator and increment distance
     for loc_num in range(1, num_joints + 1):
@@ -67,7 +68,8 @@ def create_locator_chain(name, side, dir_vector, num_joints=3, length=6,
         loc = cmds.spaceLocator(name=loc_name)[0]
         cmds.xform(loc, worldSpace=True, translation=next_pos)
         locators.append(loc)
-        next_pos = add_tup(next_pos, vector_incr)
+        if num_joints > 1:
+            next_pos = add_tup(next_pos, vector_incr)
     # Parent locators down the list
     for loc_num in range(1, len(locators)):
         cmds.parent(locators[loc_num], locators[loc_num - 1])
