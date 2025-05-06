@@ -1,0 +1,12 @@
+<?xml version="1.0" ?>
+<root>
+	<ArmComponent/>
+    <HandComponent/>
+    <fingers>
+        <FingerComponent/>
+        <FingerComponent/>
+        <FingerComponent/>
+        <FingerComponent/>
+        <FingerComponent/>
+    </fingers>
+</root>

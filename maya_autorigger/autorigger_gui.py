@@ -103,6 +103,7 @@ class AutoRiggerGUI(QtWidgets.QDialog):
                            msg="Number of arm joints must be an even number and greater "
                                "than or equal to 3.       ")
             return None
+        return True
 
 
     def generate_joints(self):
@@ -115,6 +116,7 @@ class AutoRiggerGUI(QtWidgets.QDialog):
                            msg="Locators must be created before generating "
                                "joints.       ")
             return None
+        return True
 
 
     @classmethod
