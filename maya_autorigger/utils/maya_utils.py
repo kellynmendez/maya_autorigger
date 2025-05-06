@@ -11,7 +11,6 @@
 :synopsis:
     This module contains utilities for working with rigs in maya.
 """
-from shutil import posix
 
 #----------------------------------------------------------------------------------------#
 #----------------------------------------------------------------------------- IMPORTS --#
@@ -23,11 +22,17 @@ import maya.cmds as cmds
 
 # Internal
 from maya_autorigger.utils.enums import SUFFIX
-from maya_autorigger.utils.gen_utils import multipy_tup, add_tup
-
 
 #----------------------------------------------------------------------------------------#
 #--------------------------------------------------------------------------- FUNCTIONS --#
+
+def multipy_tup(tup, scalar):
+    return [scalar * t for t in tup]
+
+
+def add_tup(tup_a, tup_b):
+    return [tup_a[i] + tup_b[i] for i in range(3)]
+
 
 def create_locator_chain(name, side, dir_vector=None, num_joints=3, length=6,
                          start_pos=(0, 0, 0)):
@@ -78,6 +83,7 @@ def create_locator_chain(name, side, dir_vector=None, num_joints=3, length=6,
 
     return locators
 
+
 def orient_joint(target_jnt, jnt):
     """
 
@@ -117,7 +123,6 @@ def create_joints_from_locators(locators):
 
     cmds.delete(locators)
     return joints
-
 
 
 #----------------------------------------------------------------------------------------#

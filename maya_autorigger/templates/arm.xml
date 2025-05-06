@@ -1,12 +1,26 @@
 <?xml version="1.0" ?>
 <root>
-	<ArmComponent/>
-    <HandComponent/>
-    <fingers>
-        <FingerComponent/>
-        <FingerComponent/>
-        <FingerComponent/>
-        <FingerComponent/>
-        <FingerComponent/>
-    </fingers>
+	<Arm>
+        <module value="ArmComponent"/>
+    </Arm>
+    <Hand>
+        <module value="HandComponent"/>
+    </Hand>
+    <Fingers>
+        <Finger01>
+            <module value="FingerComponent"/>
+        </Finger01>
+        <Finger02>
+            <module value="FingerComponent"/>
+        </Finger02>
+        <Finger03>
+            <module value="FingerComponent"/>
+        </Finger03>
+        <Finger04>
+            <module value="FingerComponent"/>
+        </Finger04>
+        <Finger05>
+            <module value="FingerComponent"/>
+        </Finger05>
+    </Fingers>
 </root>

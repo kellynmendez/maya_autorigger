@@ -24,8 +24,8 @@ import maya.cmds as cmds
 # Internal
 from maya_autorigger.modules.base_comp import BaseComponent
 from maya_autorigger.utils.enums import SIDE, AXIS
-from maya_autorigger.utils.rig_utils import (create_locator_chain,
-                                             create_joints_from_locators)
+from maya_autorigger.utils.maya_utils import (create_locator_chain,
+                                              create_joints_from_locators)
 
 
 #----------------------------------------------------------------------------------------#
