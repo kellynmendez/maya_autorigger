@@ -55,9 +55,22 @@ class Biped:
         # This builds just the arm for now
         template_dict = read_xml(self.template)
 
+        self._build_rig_helper(template_dict)
+
     def _build_rig_helper(self, curr_level):
         """
 
         :param curr_level:
         :return:
         """
+        if len(curr_level):
+            for comp in curr_level:
+                if "module" in comp:
+                    module = comp["module"]
+                    print(f'module: {module}')
+                    return comp
+                else:
+                    print(f'comp:   {comp}')
+                    self._build_rig_helper(curr_level[comp])
+                    return None
+        return None
