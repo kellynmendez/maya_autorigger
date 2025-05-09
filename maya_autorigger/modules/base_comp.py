@@ -63,6 +63,8 @@ class Component:
         self.start_pos = start_pos
         self.num_joints = num_joints
         self.length = length
+        # Parent is set later
+        self.parent = None
 
         # Lists to track
         self.locators = []
@@ -94,21 +96,27 @@ class Component:
         """
         raise NotImplementedError("Subclass must implement create_ctrls method.")
 
-    def get_root(self):
+    def get_root(self, loc_flag):
         """
         Get root of chain
         """
-        return self.locators[0]
+        if loc_flag:
+            return self.locators[0]
+        else:
+            return self.joints[0]
 
-    def get_end(self):
+    def get_end(self, loc_flag):
         """
         Get root of chain
         """
-        print(self.locators)
-        return self.locators[-1]
+        if loc_flag:
+            return self.locators[-1]
+        else:
+            return self.joints[-1]
 
-    def set_parent(self, parent):
+    def set_parent(self, parent, loc_flag):
         """
         Sets the parent of the joint
         """
-        cmds.parent(self.get_root(), parent)
+        self.parent = parent
+        cmds.parent(self.get_root(loc_flag=loc_flag), parent.get_end(loc_flag=loc_flag))

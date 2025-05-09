@@ -104,10 +104,10 @@ class Biped:
         for comp in self.components:
             print(comp)
             if not parent:
-                parent = comp.get_end()
+                parent = comp
                 continue
             print(f'{parent}, {comp}')
-            comp.set_parent(parent)
+            comp.set_parent(parent, loc_flag=True)
 
         print(self.components)
 
