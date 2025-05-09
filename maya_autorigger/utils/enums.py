@@ -25,7 +25,7 @@ def enum(**enums):
 
 SUFFIX = enum(LOCATOR='LOC',
               JOINT='JNT',
-              CURVE='CON')
+              CONTROL='CON')
 
 SIDE = enum(R='R',
             L='L',

@@ -12,7 +12,6 @@
     This module contains the class for creating an arm component.
 """
 
-
 #----------------------------------------------------------------------------------------#
 #----------------------------------------------------------------------------- IMPORTS --#
 
@@ -22,8 +21,8 @@
 
 # Internal
 from maya_autorigger.modules.base_comp import Component
-from maya_autorigger.utils.enums import JNT_NAME, SUFFIX
-from maya_autorigger.utils.maya_utils import create_locator_chain
+from maya_autorigger.utils.maya_utils import (create_locator_chain,
+                                              create_joints_from_locators, create_blend_chain)
 
 #----------------------------------------------------------------------------------------#
 #--------------------------------------------------------------------------- FUNCTIONS --#
@@ -56,6 +55,9 @@ class Arm(Component):
         :type: utils.enums.AXIS
         """
         super().__init__(name, side, start_pos, num_joints, length, axis)
+        self.blend_jnts = None
+        self.fk_jnts = None
+        self.ik_jnts = None
 
     def create_locators(self):
         """
@@ -68,6 +70,19 @@ class Arm(Component):
                                              dir_vector=self.dir_vector,
                                              start_pos=self.start_pos)
         return self.locators
+
+    def build(self):
+        """
+        Builds the joints from the locators
+        """
+        # Create all joints
+        self.fk_jnts = create_joints_from_locators(self.locators, name_modifier='fk')
+        self.ik_jnts = create_joints_from_locators(self.locators, name_modifier='ik')
+        self.blend_jnts = create_joints_from_locators(self.locators, name_modifier='blend')
+        self.joints = self.blend_jnts
+
+        create_blend_chain(self.blend_jnts, self.fk_jnts, self.ik_jnts)
+
 
     def create_ctrls(self):
         """

@@ -23,8 +23,8 @@ from abc import abstractmethod
 import maya.cmds as cmds
 
 # Internal
-from maya_autorigger.utils.enums import SIDE, SUFFIX
-from maya_autorigger.utils.maya_utils import multipy_tup, create_joints_from_locators
+from maya_autorigger.utils.enums import SIDE
+from maya_autorigger.utils.maya_utils import multipy_tup
 
 
 #----------------------------------------------------------------------------------------#
@@ -83,11 +83,12 @@ class Component:
         """
         raise NotImplementedError("Subclass must implement create_locators method.")
 
+    @abstractmethod
     def build(self):
         """
         Builds the joints from the locators
         """
-        self.joints = create_joints_from_locators(self.locators)
+        raise NotImplementedError("Subclass must implement build method.")
 
     @abstractmethod
     def create_ctrls(self):

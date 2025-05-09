@@ -22,8 +22,8 @@ import maya.cmds as cmds
 
 # Internal
 from maya_autorigger.modules.base_comp import Component
-from maya_autorigger.utils.enums import JNT_NAME, SUFFIX
-from maya_autorigger.utils.maya_utils import create_locator_chain
+from maya_autorigger.utils.maya_utils import (create_locator_chain,
+                                              create_joints_from_locators)
 
 
 #----------------------------------------------------------------------------------------#
@@ -69,6 +69,12 @@ class Finger(Component):
                                              dir_vector=self.dir_vector,
                                              start_pos=self.start_pos)
         return self.locators
+
+    def build(self):
+        """
+        Builds the joints from the locators
+        """
+        self.joints = create_joints_from_locators(self.locators)
 
     def create_ctrls(self):
         """

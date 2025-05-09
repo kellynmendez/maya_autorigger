@@ -82,7 +82,7 @@ def create_locator_chain(name, side, num_joints, length, dir_vector=None,
 
     return locators
 
-def create_joints_from_locators(locators):
+def create_joints_from_locators(locators, name_modifier=None):
     """
 
     :param locators:
@@ -94,6 +94,13 @@ def create_joints_from_locators(locators):
     for i, loc in enumerate(locators):
         # Get position and name
         jnt_name = loc.replace(SUFFIX.LOCATOR, SUFFIX.JOINT)
+        if name_modifier:
+            split_name = jnt_name.split('_')
+            start = '_'.join(split_name[:-1])
+            print(split_name)
+            print(start)
+            print(split_name[-1])
+            jnt_name = f'{start}_{name_modifier}_{split_name[-1]}'
         # Create joint at origin and with no parent
         jnt = cmds.joint(name=jnt_name)
         if cmds.listRelatives(jnt, parent=True):
@@ -110,9 +117,40 @@ def create_joints_from_locators(locators):
         if i > 0:
             cmds.parent(joints[i], joints[i - 1])
 
-    # Delete the locators
-    #cmds.delete(locators)
     return joints
+
+def create_fk_con(joint, con_name):
+    """
+
+    :param joint: joint to create control for
+    :return:
+    """
+    control = cmds.circle(nr=(1, 0, 0), c=(0, 0, 0), r=1.5, n=con_name)
+    cmds.parent(control, joint)
+    cmds.xform(control, translation=(0, 0, 0))
+    cmds.select(joint)
+    child = cmds.pickWalk(direction='down')
+    cmds.parent(child, control)
+    return control
+
+
+def create_blend_chain(blend_jnts, fk_jnts, ik_jnts):
+    """
+
+    :param blend_jnts:
+    :param fk_jnts:
+    :param ik_jnts:
+    :return:
+    """
+    # Create ik handle
+    ik_root = ik_jnts[0]
+    ik_end = ik_jnts[-1]
+    cmds.ikHandle(solver='ikRPsolver', startJoint=ik_root, endEffector=ik_end)
+    # Create fk controls
+    for jnt in fk_jnts:
+        if jnt != fk_jnts[-1]:
+            con_name = jnt.replace(SUFFIX.JOINT, SUFFIX.CONTROL)
+            create_fk_con(jnt, con_name)
 
 
 #----------------------------------------------------------------------------------------#
