@@ -89,6 +89,7 @@ class Biped:
         self.arm_jnt_num = arm_jnt_num
         self.components = []
 
+
     def create_locators(self):
         """
         Builds the locators module by module
@@ -96,20 +97,18 @@ class Biped:
         # This builds just the arm for now
         template_dict = read_xml(self.template)
 
+        #
         self.components = []
         for key in template_dict.keys():
             self.components.extend(self._create_locator_helper(template_dict[key]))
-        print(self.components)
+
         parent = None
         for comp in self.components:
-            print(comp)
             if not parent:
                 parent = comp
                 continue
-            print(f'{parent}, {comp}')
             comp.set_parent(parent, loc_flag=True)
 
-        print(self.components)
 
     def _create_locator_helper(self, curr_level, distance=0):
         """
@@ -131,10 +130,16 @@ class Biped:
 
         return components
 
+
     def create_joints(self):
         """
 
         :return:
         """
+        parent = None
         for comp in self.components:
             comp.build()
+            if not parent:
+                parent = comp
+                continue
+            comp.set_parent(parent, loc_flag=False)

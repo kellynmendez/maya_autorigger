@@ -53,8 +53,6 @@ class AutoRiggerGUI(QtWidgets.QDialog):
         QtWidgets.QDialog.__init__(self, parent=get_maya_window())
 
         self.num_arm_jnts_box = None
-        self.locators_created = False
-
         self.biped = None
 
     def init_gui(self):
@@ -111,7 +109,6 @@ class AutoRiggerGUI(QtWidgets.QDialog):
             return None
         self.biped = Biped(arm_jnt_num=self.num_arm_jnts_box.value(), template_file=os.path.join(os.path.dirname(os.path.realpath(__file__)), "templates\\arm.xml"))
         self.biped.create_locators()
-        self.locators_created = True
         return True
 
 
@@ -120,7 +117,7 @@ class AutoRiggerGUI(QtWidgets.QDialog):
 
         :return:
         """
-        if not self.locators_created:
+        if not self.biped:
             self.warn_user(title="Error",
                            msg="Locators must be created before generating "
                                "joints.       ")
