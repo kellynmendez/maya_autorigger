@@ -55,8 +55,8 @@ TEMPLATE_KEY = enum(COMPONENT='component',
                     START_POS="start_pos",
                     NUM_JOINTS="num_joints")
 
-DEFAULT_LENGTH = enum(Arm=36.0,
-                      Finger=6.0,
-                      Spacer=10.0)
+DEFAULT_LENGTH = enum(Arm=1.0,
+                      Finger=1.0,
+                      Spacer=3.0)
 
 #endregion enums

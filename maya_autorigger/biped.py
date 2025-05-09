@@ -17,9 +17,6 @@
 #----------------------------------------------------------------------------- IMPORTS --#
 
 # Built-in
-import os
-from re import template
-from turtledemo.penrose import start
 
 # Third party
 
@@ -39,12 +36,14 @@ def build_component(attributes, distance):
 
     :return:
     """
+     # Get variables for making component
     module = attributes[TEMPLATE_KEY.MODULE]
     num_comps = int(attributes[TEMPLATE_KEY.NUM_COMPS])
     side = attributes[TEMPLATE_KEY.SIDE]
     num_joints = int(attributes[TEMPLATE_KEY.NUM_JOINTS])
     axis = getattr(AXIS, attributes[TEMPLATE_KEY.AXIS])
 
+    # Set the start position based on previous lengths
     start_pos = (0, 0, 0)
     if distance != 0:
         if side == SIDE.R:
@@ -53,15 +52,32 @@ def build_component(attributes, distance):
             add = multipy_tup(axis, distance)
         start_pos = add_tup(start_pos, add_tup(add, multipy_tup(axis, DEFAULT_LENGTH.Spacer)))
 
+    # Determine spread axis
+    if axis == AXIS.X:
+        spread_axis = AXIS.Z
+    else:
+        spread_axis = AXIS.X
+
     comps = []
+     # Create given number of components
     for i in range(1, num_comps + 1):
-        if num_comps == 1:
+        if num_comps == 1:  # Only one component made
             name = f'{module.lower()}'
-        else:
+            position = start_pos
+        elif i == 1:        # First component should have original start position
             name = f'{module.lower()}{i:02d}_'
+            position = start_pos
+        else:               # Alternate either side after first component
+            name = f'{module.lower()}{i:02d}_'
+            direction = (-1) ** i               # +1, -1, +1, -1...
+            step = ((i - 2) // 2 + 1) * 2       # 2, 2, 4, 4, 6, 6, ...
+            offset = multipy_tup(spread_axis, direction * step)
+            position = add_tup(start_pos, offset)
+
+        print(position)
         comps.append(globals()[module](name=name,
                                        side=side,
-                                       start_pos=start_pos,
+                                       start_pos=position,
                                        num_joints=num_joints,
                                        length=getattr(DEFAULT_LENGTH, module),
                                        axis=axis))

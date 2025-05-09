@@ -18,7 +18,7 @@
 # Built-in
 
 # Third party
-
+import maya.cmds as cmds
 
 # Internal
 from maya_autorigger.modules.base_comp import Component
@@ -84,6 +84,7 @@ class Arm(Component):
         self.joints = self.blend_jnts
 
         create_arm_blend_chain(self.blend_jnts, self.fk_jnts, self.ik_jnts)
+
 
     def create_ctrls(self):
         """
