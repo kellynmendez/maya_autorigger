@@ -19,10 +19,12 @@
 
 # Third party
 
+
 # Internal
 from maya_autorigger.modules.base_comp import Component
 from maya_autorigger.utils.maya_utils import (create_locator_chain,
-                                              create_joints_from_locators, create_blend_chain)
+                                              create_joints_from_locators,
+                                              create_arm_blend_chain)
 
 #----------------------------------------------------------------------------------------#
 #--------------------------------------------------------------------------- FUNCTIONS --#
@@ -81,8 +83,7 @@ class Arm(Component):
         self.blend_jnts = create_joints_from_locators(self.locators, name_modifier='blend')
         self.joints = self.blend_jnts
 
-        create_blend_chain(self.blend_jnts, self.fk_jnts, self.ik_jnts)
-
+        create_arm_blend_chain(self.blend_jnts, self.fk_jnts, self.ik_jnts)
 
     def create_ctrls(self):
         """
