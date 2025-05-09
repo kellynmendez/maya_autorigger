@@ -34,7 +34,7 @@ def add_tup(tup_a, tup_b):
     return [tup_a[i] + tup_b[i] for i in range(3)]
 
 
-def create_locator_chain(name, side, dir_vector=None, num_joints=3, length=6,
+def create_locator_chain(name, num_joints, length, dir_vector=None,
                          start_pos=(0, 0, 0)):
     """
     Creates a chain of locators
@@ -63,14 +63,12 @@ def create_locator_chain(name, side, dir_vector=None, num_joints=3, length=6,
     locators = []
     # Starting values
     next_pos = start_pos
-    gap = length / num_joints
-    if num_joints > 1:
-        vector_incr = multipy_tup(dir_vector, gap)
+    gap = length / (num_joints - 1)
+    vector_incr = multipy_tup(dir_vector, gap)
 
     # For each joint that we want, create a locator and increment distance
     for loc_num in range(1, num_joints + 1):
-        loc_name = f'{side}_{name}{loc_num:02}_{SUFFIX.LOCATOR}'
-        loc = cmds.spaceLocator(name=loc_name)[0]
+        loc = cmds.spaceLocator(name=name)[0]
         cmds.xform(loc, worldSpace=True, translation=next_pos)
         locators.append(loc)
         if num_joints > 1:
@@ -82,16 +80,6 @@ def create_locator_chain(name, side, dir_vector=None, num_joints=3, length=6,
     cmds.select(clear=True)
 
     return locators
-
-
-def orient_joint(target_jnt, jnt):
-    """
-
-    :param target_jnt:
-    :param jnt:
-    :return:
-    """
-    cmds.aimConstraint(target_jnt, jnt, aimVector=(1, 0, 0), upVector = (0, 1, 0))
 
 def create_joints_from_locators(locators):
     """
@@ -114,13 +102,14 @@ def create_joints_from_locators(locators):
         cmds.xform(jnt, translation=(0, 0, 0))
         cmds.joint(name=jnt, edit=True, orientation=[0, 0, 0])
         cmds.parent(jnt, world=True)
+
         # Add joint to list
         joints.append(jnt)
-
         # Parent this joint to the previous one
         if i > 0:
             cmds.parent(joints[i], joints[i - 1])
 
+    # Delete the locators
     cmds.delete(locators)
     return joints
 

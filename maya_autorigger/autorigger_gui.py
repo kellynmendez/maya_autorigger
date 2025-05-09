@@ -17,11 +17,15 @@
 #----------------------------------------------------------------------------- IMPORTS --#
 
 # Built-in
+import os
 
 # Third party
 from PySide2 import QtWidgets
 from maya import OpenMayaUI as omui
 from shiboken2 import wrapInstance
+
+from maya_autorigger.biped import Biped
+
 
 # Internal
 
@@ -50,6 +54,8 @@ class AutoRiggerGUI(QtWidgets.QDialog):
 
         self.num_arm_jnts_box = None
         self.locators = []
+
+        self.biped = None
 
     def init_gui(self):
         """
@@ -103,6 +109,8 @@ class AutoRiggerGUI(QtWidgets.QDialog):
                            msg="Number of arm joints must be an even number and greater "
                                "than or equal to 3.       ")
             return None
+        self.biped = Biped(arm_jnt_num=self.num_arm_jnts_box.value(), template_file=os.path.join(os.path.dirname(os.path.realpath(__file__)), "templates\\arm.xml"))
+        self.biped.create_locators()
         return True
 
 
