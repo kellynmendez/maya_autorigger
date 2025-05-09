@@ -61,11 +61,13 @@ class Arm(Component):
         """
         Creates the base locators for arm
         """
-        self.locators = create_locator_chain(name=self.loc_name,
+        self.locators = create_locator_chain(name=self.name,
+                                             side=self.side,
                                              num_joints=self.num_joints,
                                              length=self.length,
                                              dir_vector=self.dir_vector,
                                              start_pos=self.start_pos)
+        return self.locators
 
     def create_ctrls(self):
         """

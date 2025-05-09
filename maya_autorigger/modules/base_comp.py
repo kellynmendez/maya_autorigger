@@ -20,6 +20,7 @@
 from abc import abstractmethod
 
 # Third party
+import maya.cmds as cmds
 
 # Internal
 from maya_autorigger.utils.enums import SIDE, SUFFIX
@@ -56,7 +57,8 @@ class Component:
         :param axis: Axis to build chain along
         :type: utils.enums.AXIS
         """
-        # Other class vars
+        # Class vars
+        self.name = name
         self.side = side
         self.start_pos = start_pos
         self.num_joints = num_joints
@@ -71,9 +73,6 @@ class Component:
         self.dir_vector = axis
         if self.side == SIDE.R:
             self.dir_vector = multipy_tup(axis, -1)
-
-        # Set locator name
-        self.loc_name = f'{side}_{name}_{SUFFIX.LOCATOR}'
 
     @abstractmethod
     def create_locators(self):
@@ -97,9 +96,19 @@ class Component:
 
     def get_root(self):
         """
-        Gives component that should be connected
-
-        :return: Root component that should be connected to parent
-        :type: 
+        Get root of chain
         """
-        return self.joints[0]
+        return self.locators[0]
+
+    def get_end(self):
+        """
+        Get root of chain
+        """
+        print(self.locators)
+        return self.locators[-1]
+
+    def set_parent(self, parent):
+        """
+        Sets the parent of the joint
+        """
+        cmds.parent(self.get_root(), parent)

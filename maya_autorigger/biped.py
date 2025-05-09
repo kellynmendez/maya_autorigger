@@ -58,7 +58,7 @@ def build_component(attributes, distance):
         if num_comps == 1:
             name = f'{module.lower()}'
         else:
-            name = f'{module.lower()}{i:02d}'
+            name = f'{module.lower()}{i:02d}_'
         comps.append(globals()[module](name=name,
                                        side=side,
                                        start_pos=start_pos,
@@ -99,6 +99,15 @@ class Biped:
         self.components = []
         for key in template_dict.keys():
             self.components.extend(self._create_locator_helper(template_dict[key]))
+        print(self.components)
+        parent = None
+        for comp in self.components:
+            print(comp)
+            if not parent:
+                parent = comp.get_end()
+                continue
+            print(f'{parent}, {comp}')
+            comp.set_parent(parent)
 
         print(self.components)
 
@@ -121,3 +130,11 @@ class Biped:
                     components.extend(self._create_locator_helper(value[child], distance=distance))
 
         return components
+
+    def create_joints(self):
+        """
+
+        :return:
+        """
+        for comp in self.components:
+            comp.build()

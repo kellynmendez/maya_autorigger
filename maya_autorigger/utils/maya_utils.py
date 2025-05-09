@@ -34,7 +34,7 @@ def add_tup(tup_a, tup_b):
     return [tup_a[i] + tup_b[i] for i in range(3)]
 
 
-def create_locator_chain(name, num_joints, length, dir_vector=None,
+def create_locator_chain(name, side, num_joints, length, dir_vector=None,
                          start_pos=(0, 0, 0)):
     """
     Creates a chain of locators
@@ -68,7 +68,8 @@ def create_locator_chain(name, num_joints, length, dir_vector=None,
 
     # For each joint that we want, create a locator and increment distance
     for loc_num in range(1, num_joints + 1):
-        loc = cmds.spaceLocator(name=name)[0]
+        loc_name = f'{side}_{name}{loc_num:02d}_{SUFFIX.LOCATOR}'
+        loc = cmds.spaceLocator(name=loc_name)[0]
         cmds.xform(loc, worldSpace=True, translation=next_pos)
         locators.append(loc)
         if num_joints > 1:
@@ -110,7 +111,7 @@ def create_joints_from_locators(locators):
             cmds.parent(joints[i], joints[i - 1])
 
     # Delete the locators
-    cmds.delete(locators)
+    #cmds.delete(locators)
     return joints
 
 
